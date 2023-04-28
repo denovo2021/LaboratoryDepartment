@@ -31,6 +31,10 @@ button:disabled {
     background-color: #ccc;
 }
 
+.choice.selected {
+  background-color: #cce5ff;
+}
+
 .hidden {
     display: none;
 }

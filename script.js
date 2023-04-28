@@ -53,4 +53,22 @@ document.getElementById('next-question').addEventListener('click', () => {
   }
 });
 
+// ...
+
+function handleChoiceClick(event) {
+  // 選択済みの選択肢の色をリセットする
+  const selectedChoices = document.querySelectorAll(".choice.selected");
+  selectedChoices.forEach((choice) => {
+    choice.classList.remove("selected");
+  });
+
+  // クリックされた選択肢に 'selected' クラスを追加
+  event.target.classList.add("selected");
+
+  // ...
+}
+
+// ...
+
+
 displayQuestion();
