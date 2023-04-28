@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>臨床検査技師国家試験 クイズ</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>臨床検査技師国家試験</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="quiz-container">
-        <h1>臨床検査技師国家試験 クイズ</h1>
-        <p id="question"></p>
-        <div id="choices"></div>
-        <button id="submit">回答する</button>
-        <div id="result" class="hidden"></div>
+  <h1>臨床検査技師国家試験 クイズ</h1>
+  <div id="question-container">
+    <p id="question-text"></p>
+    <div>
+      <button class="choice" data-choice="1"></button>
+      <button class="choice" data-choice="2"></button>
+      <button class="choice" data-choice="3"></button>
+      <button class="choice" data-choice="4"></button>
+      <button class="choice" data-choice="5"></button>
     </div>
-
-    <div id="question-container">
-      <h3 id="question-text"></h3>
-      <div id="choices-container">
-        <div class="choice" data-choice="1">1</div>
-        <div class="choice" data-choice="2">2</div>
-        <div class="choice" data-choice="3">3</div>
-        <div class="choice" data-choice="4">4</div>
-        <div class="choice" data-choice="5">5</div>
-      </div>
-      <button id="submit-answer">回答する</button>
-    </div>
-    <div id="result-container" style="display: none;">
-      <p id="result-text"></p>
-      <button id="next-question">次の問題へ</button>
-    </div>
-    <script src="script.js"></script>
+    <button id="submit-answer">回答</button>
+  </div>
+  <div id="result-container" style="display: none;">
+    <p id="result-text"></p>
+    <button id="next-question">次の問題</button>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
