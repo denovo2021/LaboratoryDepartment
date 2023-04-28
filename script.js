@@ -1,48 +1,56 @@
-const questionElement = document.getElementById("question");
-const choicesElement = document.getElementById("choices");
-const submitButton = document.getElementById("submit");
-const resultElement = document.getElementById("result");
-
-const question = "次のうち、臨床検査技師の役割に関連するものはどれ？";
-const choices = [
-    "A. 食品の安全性検査",
-    "B. 建築物の耐震性検査",
-    "C. 病原体の同定",
-    "D. 消防設備の点検",
-    "E. 自動車の排ガス検査"
+// 問題データと解答データのサンプル
+const questions = [
+  {
+    text: '問題1: 医療情報システムで臨床検査項目分類コードとして用いられるのはどれか。',
+    choices: ['1. DICOM', '2. HL7', '3. ICD11', '4. JLAC', '5. PACS'],
+    correctAnswer: 4,
+  },
+  {
+    text: '問題2: 波長220nmの光の分類はどれか。',
+    choices: ['1. 紫外線A', '2. 紫外線B', '3. 紫外線C', '4. 赤外線A', '5. 赤外線B'],
+    correctAnswer: 3,
+  },
+  // 他の問題を追加
 ];
-const correctAnswer = "C";
-const explanation = "臨床検査技師は、患者の診断や治療に必要な検査を行う専門家であり、病原体の同定などがその役割に含まれます。その他の選択肢は、それぞれ異なる専門家が関与する分野であり、臨床検査技師の役割とは直接関係がありません。";
 
-// Set question and choices
-questionElement.textContent = question;
-choices.forEach((choice) => {
-const button = document.createElement("button");
-button.textContent = choice;
-button.addEventListener("click", () => {
-submitButton.disabled = false;
-choicesElement.childNodes.forEach((node) => {
-node.disabled = true;
-});
-button.disabled = false;
-button.style.backgroundColor = "#ccc";
-});
-choicesElement.appendChild(button);
-});
+let currentQuestionIndex = 0;
+let userAnswer = null;
 
-// Check answer and display result
-submitButton.addEventListener("click", () => {
-const selectedButton = Array.from(choicesElement.childNodes).find(
-(button) => !button.disabled
-);
-const selectedAnswer = selectedButton.textContent[0];
-
-if (selectedAnswer === correctAnswer) {
-resultElement.textContent = "正解！解説: " + explanation;
-} else {
-resultElement.textContent = "残念、不正解。正解は " + correctAnswer + " です。解説: " + explanation;
+function displayQuestion() {
+  const question = questions[currentQuestionIndex];
+  document.getElementById('question-text').innerText = question.text;
+  const choices = document.querySelectorAll('.choice');
+  for (let i = 0; i < choices.length; i++) {
+    choices[i].innerText = question.choices[i];
+  }
 }
 
-resultElement.classList.remove("hidden");
-submitButton.classList.add("hidden");
+document.querySelectorAll('.choice').forEach((choice) => {
+  choice.addEventListener('click', (e) => {
+    userAnswer = parseInt(e.target.dataset.choice);
+  });
 });
+
+document.getElementById('submit-answer').addEventListener('click', () => {
+  const resultText = document.getElementById('result-text');
+  if (userAnswer === questions[currentQuestionIndex].correctAnswer) {
+    resultText.innerText = '正解！';
+  } else {
+    resultText.innerText = '不正解...';
+  }
+  document.getElementById('question-container').style.display = 'none';
+  document.getElementById('result-container').style.display = 'block';
+});
+
+document.getElementById('next-question').addEventListener('click', () => {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    displayQuestion();
+    document.getElementById('question-container').style.display = 'block';
+    document.getElementById('result-container').style.display = 'none';
+  } else {
+    alert('すべての問題が終了しました！');
+  }
+});
+
+displayQuestion();
