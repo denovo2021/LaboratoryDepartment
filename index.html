@@ -3,11 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>臨床検査技師国家試験問題</title>
+  <title>クイズアプリ</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="questions-container"></div>
-  <script src="script.js"></script>
+  <div id="app">
+    <h1>臨床検査技師国家試験問題</h1>
+    <div id="question"></div>
+    <ol id="choices"></ol>
+  </div>
+
+  <script>
+    // JSONファイルを読み込む関数
+    async function loadJson(url) {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    }
+
+    // 問題と選択肢を表示する関数
+    function displayQuestion(questionData) {
+      const questionElement = document.getElementById("question");
+      const choicesElement = document.getElementById("choices");
+
+      // 問題を表示
+      questionElement.textContent = questionData.question;
+
+      // 選択肢を表示
+      choicesElement.innerHTML = "";
+      questionData.choices.forEach((choice, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${index + 1}. ${choice}`;
+        choicesElement.appendChild(li);
+      });
+    }
+
+    // ページが読み込まれたときに実行される関数
+    async function onPageLoad() {
+      const data = await loadJson("questions_68.json");
+      const questions = data.questions;
+
+      // 最初の問題を表示
+      displayQuestion(questions[0]);
+    }
+
+    // ページが読み込まれたときにonPageLoad関数を実行
+    window.addEventListener("load", onPageLoad);
+  </script>
 </body>
 </html>
