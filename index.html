@@ -9,71 +9,12 @@
 <body>
   <div id="app">
     <h1>臨床検査技師国家試験問題</h1>
-    <label for="question-number">問題番号:</label>
-    <input type="text" id="question-number">
-    <button id="show-question">問題を表示</button>
+    <a href="#" id="link-am">068午前</a>
+    <a href="#" id="link-pm">068午後</a>
     <div id="question"></div>
     <ol id="choices"></ol>
-    <div id="correct-answer"></div>
   </div>
-
-  <script>
-    // JSONファイルを読み込む関数
-    async function loadJson(url) {
-      const response = await fetch(url);
-      const data = await response.json();
-      return data;
-    }
-
-    // 問題と選択肢を表示する関数
-    function displayQuestion(questionData, correctAnswer) {
-      const questionElement = document.getElementById("question");
-      const choicesElement = document.getElementById("choices");
-      const correctAnswerElement = document.getElementById("correct-answer");
-
-      // 問題を表示
-      questionElement.textContent = questionData.text;
-
-      // 選択肢を表示
-      choicesElement.innerHTML = "";
-      questionData.choices.forEach((choice, index) => {
-        const li = document.createElement("li");
-        li.textContent = `${index + 1}. ${choice}`;
-        choicesElement.appendChild(li);
-      });
-
-      // 正答を表示
-      correctAnswerElement.textContent = `正答: ${correctAnswer}`;
-    }
-
-    // 問題を表示するボタンがクリックされたときの処理
-    async function displayRandomQuestion() {
-  const questionSet = Math.random() < 0.5 ? "A" : "B";
-  const questionIndex = Math.floor(Math.random() * 100);
-  const questionNumber = questionSet + (questionIndex + 1).toString().padStart(3, "0");
-
-  // question-number 要素の value にランダムに選択された問題番号を設定
-  document.getElementById("question-number").value = questionNumber;
-
-  onShowQuestionButtonClick();
-}
-
-
-    const showQuestionButton = document.getElementById("show-question");
-    showQuestionButton.addEventListener("click", onShowQuestionButtonClick);
-
-    // ページが読み込まれたときにランダムな問題を表示する関数
-    async function displayRandomQuestion() {
-      const questionSet = Math.random() < 0.5 ? "A" : "B";
-      const questionIndex = Math.floor(Math.random() * 100);
-      const questionNumber = questionSet + (questionIndex + 1).toString().padStart(2, "0");
-
-      document.getElementById("question-number").value = questionNumber;
-      onShowQuestionButtonClick();
-}
-
-// ページが読み込まれたときに displayRandomQuestion 関数を実行
-window.addEventListener("load", displayRandomQuestion);
-</script>
+  <script src="main.js"></script>
+  <div id="correct-answer"></div>
 </body>
 </html>

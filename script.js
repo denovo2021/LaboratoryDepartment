@@ -1,57 +1,42 @@
-const questions = [
-  // ここに質問データを追加
-];
+async function loadJson(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
 
-const answers = [
-  // ここに解答データを追加
-];
+function displayQuestion(questionData, correctAnswer) {
+  const questionElement = document.getElementById("question");
+  const choicesElement = document.getElementById("choices");
+  const correctAnswerElement = document.getElementById("correct-answer");
 
-function createQuestionElement(question, index) {
-  const questionElement = document.createElement("div");
-  questionElement.classList.add("question");
+  questionElement.textContent = questionData.text;
 
-  const questionTitle = document.createElement("h3");
-  questionTitle.textContent = `問${index + 1}: ${question.title}`;
-  questionElement.appendChild(questionTitle);
-
-  question.choices.forEach((choice, i) => {
-    const choiceElement = document.createElement("div");
-    choiceElement.classList.add("choice");
-    choiceElement.textContent = `${i + 1}. ${choice}`;
-
-    choiceElement.addEventListener("click", (event) => {
-      handleChoiceClick(event, index);
-    });
-
-    questionElement.appendChild(choiceElement);
+  choicesElement.innerHTML = "";
+  questionData.choices.forEach((choice, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}. ${choice}`;
+    choicesElement.appendChild(li);
   });
 
-  return questionElement;
+  correctAnswerElement.textContent = `正答: ${correctAnswer}`;
 }
 
-function handleChoiceClick(event, questionIndex) {
-  const selectedChoices = document.querySelectorAll(".choice.selected");
-  selectedChoices.forEach((choice) => {
-    choice.classList.remove("selected");
-  });
-
-  event.target.classList.add("selected");
-  showAnswer(questionIndex, event.target.textContent.charAt(0));
+async function showQuestion(questionSet) {
+  const questions = await loadJson(`./068/questions_068_${questionSet}.json`);
+  const answers = await loadJson("./068/ans_068.json");
+  const questionData = questions[Math.floor(Math.random() * questions.length)];
+  const questionNumber = questionData.number;
+  const correctAnswerIndex = answers[questionSet === "01" ? "A" : "B"][questionNumber] - 1;
+  const correctAnswer = questionData.choices[correctAnswerIndex];
+  displayQuestion(questionData, correctAnswer);
 }
 
-function showAnswer(questionIndex, userChoice) {
-  const answer = answers[questionIndex];
-  const message = userChoice == answer ? "正解です！" : `不正解。正解は${answer}です。`;
-  alert(message);
-}
+document.getElementById("link-am").addEventListener("click", (event) => {
+  event.preventDefault();
+  showQuestion("01");
+});
 
-function renderQuestions() {
-  const container = document.getElementById("questions-container");
-
-  questions.forEach((question, index) => {
-    const questionElement = createQuestionElement(question, index);
-    container.appendChild(questionElement);
-  });
-}
-
-renderQuestions();
+document.getElementById("link-pm").addEventListener("click", (event) => {
+  event.preventDefault();
+  showQuestion("02");
+});
