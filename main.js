@@ -1,22 +1,42 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>クイズアプリ</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div id="app">
-    <h1>臨床検査技師国家試験問題</h1>
-    <ul>
-      <li><a id="link-am">068午前</a></li>
-      <li><a id="link-pm">068午後</a></li>
-    </ul>
-    <div id="question"></div>
-    <ol id="choices"></ol>
-    <div id="correct-answer"></div>
-  </div>
-  <script src="main.js"></script>
-</body>
-</html>
+async function loadJson(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+
+function displayQuestion(questionData, correctAnswer) {
+  const questionElement = document.getElementById("question");
+  const choicesElement = document.getElementById("choices");
+  const correctAnswerElement = document.getElementById("correct-answer");
+
+  questionElement.textContent = questionData.text;
+
+  choicesElement.innerHTML = "";
+  questionData.choices.forEach((choice, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}. ${choice}`;
+    choicesElement.appendChild(li);
+  });
+
+  correctAnswerElement.textContent = `正答: ${correctAnswer}`;
+}
+
+async function showQuestion(questionSet) {
+  const questions = await loadJson(`./068/questions_068_${questionSet}.json`);
+  const answers = await loadJson("./068/ans_068.json");
+  const questionData = questions[Math.floor(Math.random() * questions.length)];
+  const questionNumber = questionData.number;
+  const correctAnswerIndex = answers[questionSet === "01" ? "A" : "B"][questionNumber] - 1;
+  const correctAnswer = questionData.choices[correctAnswerIndex];
+  displayQuestion(questionData, correctAnswer);
+}
+
+document.getElementById("link-am").addEventListener("click", (event) => {
+  event.preventDefault();
+  showQuestion("01");
+});
+
+document.getElementById("link-pm").addEventListener("click", (event) => {
+  event.preventDefault();
+  showQuestion("02");
+});
