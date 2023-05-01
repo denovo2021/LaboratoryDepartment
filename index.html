@@ -9,8 +9,12 @@
 <body>
   <div id="app">
     <h1>臨床検査技師国家試験問題</h1>
+    <label for="question-number">問題番号:</label>
+    <input type="text" id="question-number">
+    <button id="show-question">問題を表示</button>
     <div id="question"></div>
     <ol id="choices"></ol>
+    <div id="correct-answer"></div>
   </div>
 
   <script>
@@ -22,9 +26,10 @@
     }
 
     // 問題と選択肢を表示する関数
-    function displayQuestion(questionData) {
+    function displayQuestion(questionData, correctAnswer) {
       const questionElement = document.getElementById("question");
       const choicesElement = document.getElementById("choices");
+      const correctAnswerElement = document.getElementById("correct-answer");
 
       // 問題を表示
       questionElement.textContent = questionData.text;
@@ -36,20 +41,28 @@
         li.textContent = `${index + 1}. ${choice}`;
         choicesElement.appendChild(li);
       });
+
+      // 正答を表示
+      correctAnswerElement.textContent = `正答: ${correctAnswer}`;
     }
 
-    // ページが読み込まれたときに実行される関数
-    async function onPageLoad() {
-      const questions_01 = await loadJson("./068/questions_068_01.json");
-      const questions_02 = await loadJson("./068/questions_068_02.json");
+    // 問題を表示するボタンがクリックされたときの処理
+    async function onShowQuestionButtonClick() {
+      const questionNumber = document.getElementById("question-number").value;
+      const questionSet = questionNumber[0].toUpperCase();
+      const questionIndex = parseInt(questionNumber.slice(1)) - 1;
+
+      const questions = questionSet === "A" ? await loadJson("./068/questions_068_01.json") : await loadJson("./068/questions_068_02.json");
       const answers = await loadJson("./068/ans_068.json");
 
-      // 最初の問題を表示（ここではquestions_01の最初の問題を表示していますが、必要に応じて変更できます）
-      displayQuestion(questions_01[0]);
+      const questionData = questions[questionIndex];
+      const correctAnswer = questionData.choices[answers[questionSet][questionNumber] - 1];
+
+      displayQuestion(questionData, correctAnswer);
     }
 
-    // ページが読み込まれたときにonPageLoad関数を実行
-    window.addEventListener("load", onPageLoad);
+    const showQuestionButton = document.getElementById("show-question");
+    showQuestionButton.addEventListener("click", onShowQuestionButtonClick);
   </script>
 </body>
 </html>
