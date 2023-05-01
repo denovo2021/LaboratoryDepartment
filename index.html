@@ -63,6 +63,19 @@
 
     const showQuestionButton = document.getElementById("show-question");
     showQuestionButton.addEventListener("click", onShowQuestionButtonClick);
-  </script>
+
+    // ページが読み込まれたときにランダムな問題を表示する関数
+    async function displayRandomQuestion() {
+      const questionSet = Math.random() < 0.5 ? "A" : "B";
+      const questionIndex = Math.floor(Math.random() * 100);
+      const questionNumber = questionSet + (questionIndex + 1).toString().padStart(2, "0");
+
+      document.getElementById("question-number").value = questionNumber;
+      onShowQuestionButtonClick();
+}
+
+// ページが読み込まれたときに displayRandomQuestion 関数を実行
+window.addEventListener("load", displayRandomQuestion);
+</script>
 </body>
 </html>
