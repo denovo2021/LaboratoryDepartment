@@ -27,7 +27,7 @@
       const choicesElement = document.getElementById("choices");
 
       // 問題を表示
-      questionElement.textContent = questionData.question;
+      questionElement.textContent = questionData.text;
 
       // 選択肢を表示
       choicesElement.innerHTML = "";
@@ -40,11 +40,12 @@
 
     // ページが読み込まれたときに実行される関数
     async function onPageLoad() {
-      const data = await loadJson("questions_68.json");
-      const questions = data.questions;
+      const questions_01 = await loadJson("./068/questions_068_01.json");
+      const questions_02 = await loadJson("./068/questions_068_02.json");
+      const answers = await loadJson("./068/ans_068.json");
 
-      // 最初の問題を表示
-      displayQuestion(questions[0]);
+      // 最初の問題を表示（ここではquestions_01の最初の問題を表示していますが、必要に応じて変更できます）
+      displayQuestion(questions_01[0]);
     }
 
     // ページが読み込まれたときにonPageLoad関数を実行
