@@ -47,19 +47,17 @@
     }
 
     // 問題を表示するボタンがクリックされたときの処理
-    async function onShowQuestionButtonClick() {
-      const questionNumber = document.getElementById("question-number").value;
-      const questionSet = questionNumber[0].toUpperCase();
-      const questionIndex = parseInt(questionNumber.slice(1)) - 1;
+    async function displayRandomQuestion() {
+  const questionSet = Math.random() < 0.5 ? "A" : "B";
+  const questionIndex = Math.floor(Math.random() * 100);
+  const questionNumber = questionSet + (questionIndex + 1).toString().padStart(3, "0");
 
-      const questions = questionSet === "A" ? await loadJson("./068/questions_068_01.json") : await loadJson("./068/questions_068_02.json");
-      const answers = await loadJson("./068/ans_068.json");
+  // question-number 要素の value にランダムに選択された問題番号を設定
+  document.getElementById("question-number").value = questionNumber;
 
-      const questionData = questions[questionIndex];
-      const correctAnswer = questionData.choices[answers[questionSet][questionNumber] - 1];
+  onShowQuestionButtonClick();
+}
 
-      displayQuestion(questionData, correctAnswer);
-    }
 
     const showQuestionButton = document.getElementById("show-question");
     showQuestionButton.addEventListener("click", onShowQuestionButtonClick);
