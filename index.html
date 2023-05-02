@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>クイズアプリ</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>臨床検査技師国家試験</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <h1>臨床検査技師国家試験問題</h1>
-    <a href="#" id="link-am">068午前</a>
-    <a href="#" id="link-pm">068午後</a>
-    <div id="question"></div>
-    <ol id="choices"></ol>
-    <div id="correct-answer"></div>
-  </div>
+    <div class="container">
+        <h1>臨床検査技師国家試験</h1>
+        <a href="#" id="am-link" data-set="question_068_01">068午前</a>
+        <a href="#" id="pm-link" data-set="question_068_02">068午後</a>
 
-  <script src="main.js"></script>
+        <div class="question-section">
+            <h2 id="question-text"></h2>
+            <ul id="choices-list">
+            </ul>
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>

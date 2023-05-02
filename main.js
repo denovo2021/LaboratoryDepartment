@@ -1,42 +1,64 @@
-async function loadJson(url) {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const amLink = document.getElementById("am-link");
+  const pmLink = document.getElementById("pm-link");
+  const questionSection = document.querySelector(".question-section");
 
-function displayQuestion(questionData, correctAnswer) {
-  const questionElement = document.getElementById("question");
-  const choicesElement = document.getElementById("choices");
-  const correctAnswerElement = document.getElementById("correct-answer");
+  questionSection.style.display = "none";
 
-  questionElement.textContent = questionData.text;
-
-  choicesElement.innerHTML = "";
-  questionData.choices.forEach((choice, index) => {
-    const li = document.createElement("li");
-    li.textContent = `${index + 1}. ${choice}`;
-    choicesElement.appendChild(li);
+  amLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    loadQuestions("068/" + e.target.dataset.set);
   });
 
-  correctAnswerElement.textContent = `正答: ${correctAnswer}`;
-}
+  pmLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    loadQuestions("068/" + e.target.dataset.set);
+  });
 
-async function showQuestion(questionSet) {
-  const questions = await loadJson(`./068/questions_068_${questionSet}.json`);
-  const answers = await loadJson("./068/ans_068.json");
-  const questionData = questions[Math.floor(Math.random() * questions.length)];
-  const questionNumber = questionData.number;
-  const correctAnswerIndex = answers[questionSet === "01" ? "A" : "B"][questionNumber] - 1;
-  const correctAnswer = questionData.choices[correctAnswerIndex];
-  displayQuestion(questionData, correctAnswer);
-}
+  async function loadQuestions(filename) {
+    try {
+      const response = await fetch(filename + ".json");
+      const questions = await response.json();
+      const answerResponse = await fetch("068/ans_068.json");
+      const answers = await answerResponse.json();
+      displayQuestion(questions, answers, filename);
+    } catch (error) {
+      console.error("Error loading questions:", error);
+    }
+  }
 
-document.getElementById("link-am").addEventListener("click", (event) => {
-  event.preventDefault();
-  showQuestion("01");
-});
+  function displayQuestion(questions, answers, filename) {
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    const question = questions[randomIndex];
+    const questionText = document.getElementById("question-text");
+    const choicesList = document.getElementById("choices-list");
 
-document.getElementById("link-pm").addEventListener("click", (event) => {
-  event.preventDefault();
-  showQuestion("02");
+    questionSection.style.display = "block";
+    questionText.textContent = question.text;
+    choicesList.innerHTML = "";
+
+    question.choices.forEach((choice, index) => {
+      const li = document.createElement("li");
+      li.textContent = choice;
+      li.dataset.choice = index + 1;
+      li.addEventListener("click", (e) => {
+        showResult(question.number, e.target.dataset.choice, answers, filename);
+      });
+      choicesList.appendChild(li);
+    });
+  }
+
+  function showResult(questionNumber, selectedChoice, answers, filename) {
+    const result = document.getElementById("result");
+    const prefix = filename === "068/question_068_01" ? "A" : "B";
+    const correctAnswer = answers[prefix + questionNumber];
+
+    if (parseInt(selectedChoice) === correctAnswer) {
+      result.textContent = "正解！";
+      result.style.color = "green";
+    } else {
+      result.textContent = "不正解。正解は " + correctAnswer + " です。";
+      result.style.color = "red";
+    }
+  }
 });
