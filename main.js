@@ -1,3 +1,7 @@
+import questions_am from './068/question_068_01.json';
+import questions_pm from './068/question_068_02.json';
+import answers from './068/ans_068.json';
+
 document.addEventListener("DOMContentLoaded", () => {
   const amLink = document.getElementById("am-link");
   const pmLink = document.getElementById("pm-link");
@@ -7,25 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   amLink.addEventListener("click", (e) => {
     e.preventDefault();
-    loadQuestions("068/" + e.target.dataset.set);
+    displayQuestion(questions_am, answers, "068/question_068_01");
   });
 
   pmLink.addEventListener("click", (e) => {
     e.preventDefault();
-    loadQuestions("068/" + e.target.dataset.set);
+    displayQuestion(questions_pm, answers, "068/question_068_02");
   });
-
-  async function loadQuestions(filename) {
-    try {
-      const response = await fetch(filename + ".json");
-      const questions = await response.json();
-      const answerResponse = await fetch("068/ans_068.json");
-      const answers = await answerResponse.json();
-      displayQuestion(questions, answers, filename);
-    } catch (error) {
-      console.error("Error loading questions:", error);
-    }
-  }
 
   function displayQuestion(questions, answers, filename) {
     const randomIndex = Math.floor(Math.random() * questions.length);
