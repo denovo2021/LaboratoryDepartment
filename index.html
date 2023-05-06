@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>臨床検査技師国家試験の問題を勉強できるWebサイト</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>臨床検査技師国家試験演習</title>
 </head>
 <body>
-  <div id="container">
-    <h1>臨床検査技師国家試験の問題を勉強できるWebサイト</h1>
-    <div id="choices">
-      <a href="#A" onclick="prefix='A'; loadQuestion();">068午前</a>
-      <a href="#B" onclick="prefix='B'; loadQuestion();">068午後</a>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">臨床検査技師国家試験演習</h1>
+        <div id="question-container">
+            <p id="question-text"></p>
+            <div id="choices" class="d-flex flex-wrap justify-content-center gap-3 mb-3"></div>
+            <div class="text-center">
+                <button id="submit-answer" class="btn btn-primary">解答する</button>
+            </div>
+        </div>
     </div>
-    <div id="quiz">
-      <div id="question-text"></div>
-      <div id="choices"></div>
-    </div>
-  </div>
-  <script src="main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
