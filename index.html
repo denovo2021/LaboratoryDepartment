@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>臨床検査技師国家試験</title>
+  <title>臨床検査技師国家試験の問題を勉強できるWebサイト</title>
   <link rel="stylesheet" href="style.css">
-  <script type="module" src="main.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>臨床検査技師国家試験</h1>
-    <a href="#" id="am-link" data-set="question_068_01">068午前</a>
-    <a href="#" id="pm-link" data-set="question_068_02">068午後</a>
-    <div class="question-section">
-      <h2 id="question-text"></h2>
-      <ul id="choices-list"></ul>
-      <div class="result" id="result"></div>
+  <div id="container">
+    <h1>臨床検査技師国家試験の問題を勉強できるWebサイト</h1>
+    <div id="choices">
+      <a href="#A" onclick="prefix='A'; loadQuestion();">068午前</a>
+      <a href="#B" onclick="prefix='B'; loadQuestion();">068午後</a>
+    </div>
+    <div id="quiz">
+      <div id="question-text"></div>
+      <div id="choices"></div>
     </div>
   </div>
+  <script src="main.js"></script>
 </body>
 </html>
